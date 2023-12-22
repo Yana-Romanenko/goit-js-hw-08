@@ -90,7 +90,7 @@ const elements = images.reduce(
 galleryBox.insertAdjacentHTML('afterbegin', elements);
 
 
-const myModal = basicLightBox.create(`<img class="big-gallery-image" src="" width="1112px" height="640px">`,
+const myModal = basicLightbox.create(`<img class="big-gallery-image" src="" width="1112px" height="640px">`,
   {
     onShow: () => {
       document.addEventListener('keydown', onEscapeKeyPress);
