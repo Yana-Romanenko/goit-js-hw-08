@@ -72,7 +72,6 @@ const images = [
 
 const galleryBox = document.querySelector('.gallery');
 
-
 const elements = images.reduce(
   (htmlTotal, image) =>
     htmlTotal +
@@ -90,11 +89,32 @@ const elements = images.reduce(
 );
 galleryBox.insertAdjacentHTML('afterbegin', elements);
 
-galleryBox.addEventListener('click', (event) => {
-    event.preventDefault();
-    if (event.target.tagName === 'img') {
-        const instance = basicLightBox.create();
-        instance.show();
+
+const myModal = basicLightBox.create(`<img class="big-gallery-image" src="" width="1112px" height="640px">`,
+  {
+    onShow: () => {
+      document.addEventListener('keydown', onEscapeKeyPress);
+    },
+    onClose: () => {
+      document.removeEventListener('keydown', onEscapeKeyPress);
     }
-    
+  });
+
+  function onEscapeKeyPress(event) {
+    if (event.code === 'Escape') {
+      myModal.close();
+    }
+  }
+
+  galleryBox.addEventListener('click', (event) => {
+    event.preventDefault();
+    if (event.target.tagName !== 'IMG') {
+        return;
+    }
+
+const bigImg = myModal.element().querySelector('.big-gallery-image');
+const imageSrc = event.target.dataset.source;
+bigImg.src = imageSrc;
+
+    myModal.show();
 });
